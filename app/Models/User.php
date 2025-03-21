@@ -48,7 +48,7 @@ class User extends Authenticatable
 
     public function hasRole($role)
     {
-        // Example logic: Check if the user has the role
+        //Check if the user has the role
         return $this->role === $role;
     }
 
