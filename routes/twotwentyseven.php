@@ -25,3 +25,11 @@ Route::get('/question-2', function (VatService $vatService) {
     ]);
 
 })->name('question.two');
+
+//question number 3
+Route::get('/question-3', function () {
+
+    $geoIpData = app('geoIpData');
+    dd($geoIpData);
+    
+})->middleware('geo.ip')->name('question.three');
