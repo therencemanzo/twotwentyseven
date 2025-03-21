@@ -74,3 +74,13 @@ Route::get('/question-5', function () {
 
 })->name('question.five');
 
+//question number 8
+Route::get('/question-8', function () {
+
+    
+    return response()->json([
+        'message' => 'You have access to this route between 9 AM and 5 PM',
+    ]);
+
+})->middleware(['role.time.request.limit'])->name('question.eight');
+

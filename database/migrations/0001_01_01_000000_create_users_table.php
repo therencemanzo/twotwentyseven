@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('role')->default('can-edit-articles');
+            $table->integer('request_count')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });
