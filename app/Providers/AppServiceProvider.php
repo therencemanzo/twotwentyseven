@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Services\VatService;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\View;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,6 +23,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        // // Share geo-IP data with all views
+        // View::composer('*', function ($view) {
+        //     $geoIpData = app('geoIpData');
+        //     $view->with('geoIpData', $geoIpData);
+        // });
     }
 }

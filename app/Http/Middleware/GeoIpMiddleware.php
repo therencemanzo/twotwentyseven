@@ -19,7 +19,7 @@ class GeoIpMiddleware
     {
         $ipAddress = $request->ip();
 
-        $geoIpData = Cache::remember("geo_ip_{$ipAddress}", 3600, function () use ($ipAddress) {
+        $geoIpData = Cache::remember("geo_ip_{$ipAddress}", 7200, function () use ($ipAddress) {
             return GeoIP::lookup($ipAddress) ?? [
                 'latitude' => 0,
                 'longitude' => 0,
