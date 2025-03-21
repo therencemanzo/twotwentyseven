@@ -33,3 +33,18 @@ Route::get('/question-3', function () {
     dd($geoIpData);
     
 })->middleware('geo.ip')->name('question.three');
+
+//question number 4
+Route::get('/question-4', function (DeveloperTest $developerTest) {
+
+    $developerTest2 = app(DeveloperTest::class);
+    $developerTest3 = resolve(DeveloperTest::class);
+
+    
+
+    if($developerTest2 === $developerTest3 && $developerTest2 === $developerTest) {
+        return 'All instances are the same.';
+    }
+
+
+})->name('question.four');

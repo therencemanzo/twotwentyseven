@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Services\VatService;
+use App\Tools\DeveloperTest;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 
@@ -16,6 +17,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(VatService::class, function ($app) {
             return VatService::getInstance(20);// Default VAT percentage is 20%
         });
+
+        // Bind the Logger class as a singleton
+        $this->app->singleton(DeveloperTest::class, function ($app) {
+            return new DeveloperTest();
+        });
     }
 
     /**
@@ -23,10 +29,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // // Share geo-IP data with all views
-        // View::composer('*', function ($view) {
-        //     $geoIpData = app('geoIpData');
-        //     $view->with('geoIpData', $geoIpData);
-        // });
+       
     }
 }
