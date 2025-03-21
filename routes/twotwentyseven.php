@@ -1,8 +1,10 @@
 <?php
 
+use App\Models\Customer;
 use App\Tools\DeveloperTest;
 use Illuminate\Support\Facades\Route;
 use App\Services\VatService;
+use Pest\ArchPresets\Custom;
 
 //question number 1
 Route::get('/question-1', function () {
@@ -48,3 +50,27 @@ Route::get('/question-4', function (DeveloperTest $developerTest) {
 
 
 })->name('question.four');
+
+//question number 5
+Route::get('/question-5', function () {
+
+    $customerIds = [1,2,3,4,5,6,7,8,9,10];
+
+
+    $customers = Customer::query()
+    ->whereIn('id', $customerIds)
+    ->where('id', '>', 5)
+    ->where('score', '>', 100)
+    ->with(['bookings'])
+    ->get();
+    $customerCount = $customers->count();
+    $allBookings = $customers->pluck('bookings')->flatten();
+    
+    echo 'There are '.$customerCount.' customers with an ID > 5 and score > 100';
+    dump($customers);
+    dump($allBookings);
+
+
+
+})->name('question.five');
+
