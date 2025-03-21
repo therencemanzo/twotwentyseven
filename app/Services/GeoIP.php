@@ -14,7 +14,7 @@ class GeoIP
     {
         // Simulate known IP addresses and their geo-IP data
         $knownIps = [
-            '127..0.1' => [ // Localhost
+            '127.0.0.1' => [ // Localhost
                 'latitude' => 51.509865,
                 'longitude' => -0.118092,
             ],

@@ -1,7 +1,11 @@
 <?php
 
-use App\Http\Middleware\GeoIpMiddleware;
+
+
+// Ensure the GeoIpMiddleware class exists in the App\Http\Middleware namespace
+// If it does not exist, create the class in the appropriate directory.
 use App\Services\GeoIP;
+use App\Http\Middleware\GeoIpMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\View;
@@ -12,7 +16,7 @@ test('GeoIpMiddleware sets geo-IP data in the service container', function () {
         'latitude' => 51.509865,
         'longitude' => -0.118092,
     ];
-    $geoIpMock = Mockery::mock('alias:App\Services\GeoIP');
+    $geoIpMock = Mockery::mock(GeoIP::class);
     $geoIpMock->shouldReceive('lookup')
         ->once()
         ->with('127.0.0.1')
@@ -23,7 +27,7 @@ test('GeoIpMiddleware sets geo-IP data in the service container', function () {
     $request->server->set('REMOTE_ADDR', '127.0.0.1');
 
     // Create an instance of the middleware
-    $middleware = new GeoIpMiddleware();
+    $middleware = new GeoIpMiddleware($geoIpMock);
 
     // Handle the request
     $response = $middleware->handle($request, function ($req) {
@@ -40,7 +44,7 @@ test('GeoIpMiddleware uses cached data for the same IP address', function () {
         'latitude' => 51.509865,
         'longitude' => -0.118092,
     ];
-    $geoIpMock = Mockery::mock('alias:App\Services\GeoIP');
+    $geoIpMock = Mockery::mock(GeoIP::class);
     $geoIpMock->shouldReceive('lookup')
         ->once()
         ->with('127.0.0.1')
@@ -51,7 +55,7 @@ test('GeoIpMiddleware uses cached data for the same IP address', function () {
     $request->server->set('REMOTE_ADDR', '127.0.0.1');
 
     // Create an instance of the middleware
-    $middleware = new GeoIpMiddleware();
+    $middleware = new GeoIpMiddleware($geoIpMock);
 
     // Handle the request twice (should use cache the second time)
     $middleware->handle($request, function ($req) {
@@ -72,7 +76,7 @@ test('GeoIpMiddleware uses cached data for the same IP address', function () {
 
 test('GeoIpMiddleware provides fallback data when lookup fails', function () {
     // Mock the GeoIP::lookup method to return null
-    $geoIpMock = Mockery::mock('alias:App\Services\GeoIP');
+    $geoIpMock = Mockery::mock(GeoIP::class);
     $geoIpMock->shouldReceive('lookup')
         ->once()
         ->with('127.0.0.1')
@@ -83,7 +87,7 @@ test('GeoIpMiddleware provides fallback data when lookup fails', function () {
     $request->server->set('REMOTE_ADDR', '127.0.0.1');
 
     // Create an instance of the middleware
-    $middleware = new GeoIpMiddleware();
+    $middleware = new GeoIpMiddleware($geoIpMock);
 
     // Handle the request
     $response = $middleware->handle($request, function ($req) {

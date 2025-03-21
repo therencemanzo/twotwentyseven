@@ -10,6 +10,14 @@ use Illuminate\Support\Facades\Cache;
 
 class GeoIpMiddleware
 {
+
+    protected $geoIP;
+
+    public function __construct(GeoIP $geoIP)
+    {
+        $this->geoIP = $geoIP;
+    }
+
     /**
      * Handle an incoming request.
      *
@@ -19,8 +27,9 @@ class GeoIpMiddleware
     {
         $ipAddress = $request->ip();
 
+        
         $geoIpData = Cache::remember("geo_ip_{$ipAddress}", 7200, function () use ($ipAddress) {
-            return GeoIP::lookup($ipAddress) ?? [
+            return $this->geoIP->lookup($ipAddress) ?? [
                 'latitude' => 0,
                 'longitude' => 0,
             ];

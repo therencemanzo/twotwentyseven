@@ -37,6 +37,6 @@ class FizzBuzzCommand extends Command
             }
         }
 
-        return 0; // Command executed successfully
+        return 0; // Exit code
     }
 }
